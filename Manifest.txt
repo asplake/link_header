@@ -1,0 +1,12 @@
+History.txt
+LICENSE
+Manifest.txt
+PostInstall.txt
+README.rdoc
+Rakefile
+lib/link_header.rb
+script/console
+script/destroy
+script/generate
+test/test_helper.rb
+test/test_link_header.rb

@@ -1,0 +1,1 @@
+link-header gem installed.  See README.rdoc in the installation directory or at http://github.com/asplake/link_header.

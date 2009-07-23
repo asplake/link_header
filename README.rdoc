@@ -1,0 +1,15 @@
+= link_header README
+
+Parse and format HTTP link headers as described in the draft spec http://tools.ietf.org/id/draft-nottingham-http-link-header-06.txt
+
+== Description
+
+Convert conforming link headers to and from text, LinkHeader objects and corresponding (JSON-friendly) Array representations.
+
+== Installation
+
+  sudo gem install link-header
+
+== Author
+
+Mike Burrows (asplake), email mailto:mjb@asplake.co.uk, website positiveincline.com[http://positiveincline.com]
