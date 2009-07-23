@@ -4,11 +4,11 @@ Parse and format HTTP link headers as described in the draft spec http://tools.i
 
 == Description
 
-Convert conforming link headers to and from text, LinkHeader objects and corresponding (JSON-friendly) Array representations.
+Converts conforming link headers to and from text, LinkHeader objects and corresponding (JSON-friendly) Array representations.
 
 == Installation
 
-  sudo gem install link-header
+  sudo gem install link_header
 
 == Author
 

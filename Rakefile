@@ -10,7 +10,7 @@ $hoe = Hoe.spec 'link_header' do
   self.version = LinkHeader::VERSION
   self.readme_file          = "README.rdoc"
   self.changes              = paragraphs_of("History.txt", 0..1).join("\n\n")
-  self.rubyforge_name       = 'linkheader'
+  self.rubyforge_name       = 'link-header'
   self.url = 'http://github.com/asplake/link_header/tree'
   self.extra_deps         = [
   ]

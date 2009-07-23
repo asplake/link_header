@@ -1,7 +1,7 @@
 require "strscan"
 
 class LinkHeader
-  VERSION = "0.0.1"
+  VERSION = "0.0.2"
   
   # an array of Link objects
   attr_reader :links
