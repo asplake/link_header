@@ -4,6 +4,7 @@ Manifest.txt
 PostInstall.txt
 README.rdoc
 Rakefile
+example.rb
 lib/link_header.rb
 script/console
 script/destroy

@@ -27,9 +27,15 @@ class LinkHeader
     links.join(', ')
   end
   
-  HREF   = / *<([^>]*)> *;? */
-  TOKEN  = /([a-zA-Z0-9_\-]+)/
-  QUOTED = /"([^"]*)"/
+  #
+  # Regexes for link header parsing.  TOKEN and QUOTED in particular should conform to RFC2616.
+  #
+  # Acknowledgement: The QUOTED regexp is based on
+  # http://stackoverflow.com/questions/249791/regexp-for-quoted-string-with-escaping-quotes/249937#249937
+  #
+  HREF   = / *< *([^>]*) *> *;? */                  # note: no attempt to check URI validity
+  TOKEN  = /([^()<>@,;:\"\[\]?={}\s]+)/             # non-empty sequence of non-separator characters
+  QUOTED = /"((?:[^"\\]|\\.)*)"/                    # double-quoted strings with backslash-escaped double quotes
   ATTR   = /#{TOKEN} *= *(#{TOKEN}|#{QUOTED}) */
   SEMI   = /; */
   COMMA  = /, */
@@ -46,7 +52,8 @@ class LinkHeader
       href = scanner[1]
       attrs = []
       while scanner.scan(ATTR)
-        attrs.push([scanner[1], scanner[3] || scanner[4]])
+        attr_name, token, quoted = scanner[1], scanner[3], scanner[4].gsub(/\\"/, '"')
+        attrs.push([attr_name, token || quoted])
         break unless scanner.scan(SEMI)
       end
       links.push(Link.new(href, attrs))
@@ -98,7 +105,7 @@ class LinkHeader
     # Convert to string representation as per the link header spec
     #
     def to_s
-      (["<#{href}>"] + attr_pairs.map{|k, v| "#{k}=\"#{v}\""}).join('; ')
+      (["<#{href}>"] + attr_pairs.map{|k, v| "#{k}=\"#{v.gsub(/"/, '\"')}\""}).join('; ')
     end
   end
 end
