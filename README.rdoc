@@ -23,6 +23,8 @@ Converts conforming link headers to and from text, LinkHeader objects and corres
     ["http://example.com/",    [["rel", "up"]]]]).to_s
   #=> '<http://example.com/foo>; rel="self", <http://example.com/>; rel = "up"'
 
+For more information see the LinkHeader and LinkHeader::Link classes (both defined in lib/link_header.rb).
+
 == Author
 
 Mike Burrows (asplake), email mailto:mjb@asplake.co.uk, website positiveincline.com[http://positiveincline.com]
