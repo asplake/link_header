@@ -1,13 +1,32 @@
 require "strscan"
 
+#
+# Represents an HTTP link header of the form described in the draft spec http://tools.ietf.org/id/draft-nottingham-http-link-header-06.txt.
+# It is simply a list of LinkHeader::Link objects and some conversion functions.
+#
 class LinkHeader
+  # rubygem version
   VERSION = "0.0.3"
   
-  # an array of Link objects
+  # An array of Link objects
   attr_reader :links
   
   #
-  # Initialize from array of Link objects or the data from which said Link objects can be created
+  # Initialize from a collection of either LinkHeader::Link objects or data from which Link objects can be created.
+  #
+  # From a list of LinkHeader::Link objects:
+  #
+  #   LinkHeader.new([
+  #     LinkHeader::Link.new("http://example.com/foo", [["rel", "self"]]),
+  #     LinkHeader::Link.new("http://example.com/",    [["rel", "up"]])])
+  #
+  # From the equivalent JSON-friendly raw data:
+  #
+  #   LinkHeader.new([
+  #     ["http://example.com/foo", [["rel", "self"]]],
+  #     ["http://example.com/",    [["rel", "up"]]]]).to_s
+  #
+  # See also LinkHeader.parse
   #
   def initialize(links=[])
     @links= links.map{|l| l.kind_of?(Link) ? l : Link.new(*l)}
@@ -16,12 +35,21 @@ class LinkHeader
   #
   # Convert to a JSON-friendly array
   #
+  #   LinkHeader.parse('<http://example.com/foo>; rel="self", <http://example.com/>; rel = "up"').to_a
+  #   #=> [["http://example.com/foo", [["rel", "self"]]],
+  #        ["http://example.com/", [["rel", "up"]]]]
+  #
   def to_a
     links.map{|l| l.to_a}
   end
   
   #
   # Convert to string representation as per the link header spec
+  #
+  #   LinkHeader.new([
+  #     ["http://example.com/foo", [["rel", "self"]]],
+  #     ["http://example.com/",    [["rel", "up"]]]]).to_s
+  #   #=> '<http://example.com/foo>; rel="self", <http://example.com/>; rel = "up"'
   #
   def to_s
     links.join(', ')
@@ -33,15 +61,19 @@ class LinkHeader
   # Acknowledgement: The QUOTED regexp is based on
   # http://stackoverflow.com/questions/249791/regexp-for-quoted-string-with-escaping-quotes/249937#249937
   #
-  HREF   = / *< *([^>]*) *> *;? */                  # note: no attempt to check URI validity
-  TOKEN  = /([^()<>@,;:\"\[\]?={}\s]+)/             # non-empty sequence of non-separator characters
-  QUOTED = /"((?:[^"\\]|\\.)*)"/                    # double-quoted strings with backslash-escaped double quotes
-  ATTR   = /#{TOKEN} *= *(#{TOKEN}|#{QUOTED}) */
-  SEMI   = /; */
-  COMMA  = /, */
+  HREF   = / *< *([^>]*) *> *;? */                  #:nodoc: note: no attempt to check URI validity
+  TOKEN  = /([^()<>@,;:\"\[\]?={}\s]+)/             #:nodoc: non-empty sequence of non-separator characters
+  QUOTED = /"((?:[^"\\]|\\.)*)"/                    #:nodoc: double-quoted strings with backslash-escaped double quotes
+  ATTR   = /#{TOKEN} *= *(#{TOKEN}|#{QUOTED}) */    #:nodoc:
+  SEMI   = /; */                                    #:nodoc:
+  COMMA  = /, */                                    #:nodoc:
 
   #
   # Parse a link header, returning a new LinkHeader object
+  #
+  #   LinkHeader.parse('<http://example.com/foo>; rel="self", <http://example.com/>; rel = "up"').to_a
+  #   #=> [["http://example.com/foo", [["rel", "self"]]],
+  #        ["http://example.com/", [["rel", "up"]]]]
   #
   def self.parse(link_header)
     return new unless link_header
@@ -66,15 +98,31 @@ class LinkHeader
   #
   # Represents a link - an href and a list of attributes (key value pairs)
   #
+  #   LinkHeader::Link.new("http://example.com/foo", [["rel", "self"]]).to_s
+  #   => '<http://example.com/foo>; rel="self"'
+  #
   class Link
-    # The Link's href (a URI string)
+    #
+    # The link's URI string
+    #
+    #   LinkHeader::Link.new("http://example.com/foo", [["rel", "self"]]).href
+    #   => 'http://example.com/foo>'
+    #
     attr_reader :href
     
+    #
     # The link's attributes, an array of key-value pairs
+    #
+    #   LinkHeader::Link.new("http://example.com/foo", [["rel", "self"], ["rel", "canonical"]]).attr_pairs
+    #   => [["rel", "self"], ["rel", "canonical"]]
+    #
     attr_reader :attr_pairs
     
     #
     # Initialize a Link from an href and attribute list
+    #
+    #   LinkHeader::Link.new("http://example.com/foo", [["rel", "self"]]).to_s
+    #   => '<http://example.com/foo>; rel="self"'
     #
     def initialize(href, attr_pairs)
       @href, @attr_pairs = href, attr_pairs
@@ -83,12 +131,17 @@ class LinkHeader
     #
     # Lazily convert the attribute list to a Hash
     #
+    # Beware repeated attribute names (it's safer to use #attr_pairs if this is risk):
+    #
+    #   LinkHeader::Link.new("http://example.com/foo", [["rel", "self"], ["rel", "canonical"]]).attrs
+    #   => {"rel" =>"canonical"}
+    #
     def attrs
       @attrs ||= Hash[*attr_pairs.flatten]
     end
     
     #
-    # Access an attribute by key
+    # Access #attrs by key
     #
     def [](key)
       attrs[key]
@@ -97,12 +150,22 @@ class LinkHeader
     #
     # Convert to a JSON-friendly Array
     #
+    #   LinkHeader::Link.new("http://example.com/foo", [["rel", "self"], ["rel", "canonical"]]).to_a
+    #   => ["http://example.com/foo", [["rel", "self"], ["rel", "canonical"]]]
+    #
     def to_a
       [href, attr_pairs]
     end
     
     #
+    # Convert to string representation as per the link header spec.  This includes backspace-escaping doublequote characters in
+    # quoted attribute values.
+    #
+    #
     # Convert to string representation as per the link header spec
+    #
+    #   LinkHeader::Link.new(["http://example.com/foo", [["rel", "self"]]]).to_s
+    #   #=> '<http://example.com/foo>; rel="self"'
     #
     def to_s
       (["<#{href}>"] + attr_pairs.map{|k, v| "#{k}=\"#{v.gsub(/"/, '\"')}\""}).join('; ')

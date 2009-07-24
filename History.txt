@@ -1,6 +1,6 @@
 == 0.0.3 2009-07-24
 
-* FFC-compliant parsing and formatting; add example.rb
+* RFC-compliant parsing and formatting; add example.rb
 
 == 0.0.2 2009-07-23
 
