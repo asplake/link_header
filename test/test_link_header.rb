@@ -61,4 +61,9 @@ class TestLinkHeader < Test::Unit::TestCase
   def test_format_attribute
     assert_equal('<any old stuff!>; a-token="escaped \""', LinkHeader.new([['any old stuff!', [['a-token', 'escaped "']]]]).to_s)
   end
+  
+  def test_find_link
+    link_header = LinkHeader.new(LINK_HEADER_A)
+    assert_equal([["rel", "self"]], link_header.find_link(["rel", "self"]).attr_pairs)
+  end
 end

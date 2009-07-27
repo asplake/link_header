@@ -6,7 +6,7 @@ require "strscan"
 #
 class LinkHeader
   # rubygem version
-  VERSION = "0.0.3"
+  VERSION = "0.0.4"
   
   # An array of Link objects
   attr_reader :links
@@ -29,7 +29,11 @@ class LinkHeader
   # See also LinkHeader.parse
   #
   def initialize(links=[])
-    @links= links.map{|l| l.kind_of?(Link) ? l : Link.new(*l)}
+    if links
+      @links = links.map{|l| l.kind_of?(Link) ? l : Link.new(*l)}
+    else
+      @links = []
+    end
   end
   
   #
@@ -94,7 +98,15 @@ class LinkHeader
 
     new(links)
   end
-    
+  
+  def find_link(*attr_pairs)
+    links.detect do |link|
+      !attr_pairs.detect do |pair|
+        !link.attr_pairs.include?(pair)
+      end
+    end 
+  end
+
   #
   # Represents a link - an href and a list of attributes (key value pairs)
   #
