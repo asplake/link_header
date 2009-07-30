@@ -1,3 +1,11 @@
+== 0.0.5 2009-07-30
+
+* Add #to_html methods
+
+== 0.0.4 2009-07-27
+
+* Add LinkHeader#find_link
+
 == 0.0.3 2009-07-24
 
 * RFC-compliant parsing and formatting; add example.rb

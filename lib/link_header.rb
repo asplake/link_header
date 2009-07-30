@@ -6,7 +6,7 @@ require "strscan"
 #
 class LinkHeader
   # rubygem version
-  VERSION = "0.0.4"
+  VERSION = "0.0.5"
   
   # An array of Link objects
   attr_reader :links
@@ -99,12 +99,22 @@ class LinkHeader
     new(links)
   end
   
+  #
+  # Find a member link that has the given attributes
+  #
   def find_link(*attr_pairs)
     links.detect do |link|
       !attr_pairs.detect do |pair|
         !link.attr_pairs.include?(pair)
       end
     end 
+  end
+  
+  #
+  # Render as a list of HTML link elements
+  #
+  def to_html(separator="\n")
+    links.map{|link| link.to_html}.join(separator)
   end
 
   #
@@ -173,7 +183,6 @@ class LinkHeader
     # Convert to string representation as per the link header spec.  This includes backspace-escaping doublequote characters in
     # quoted attribute values.
     #
-    #
     # Convert to string representation as per the link header spec
     #
     #   LinkHeader::Link.new(["http://example.com/foo", [["rel", "self"]]]).to_s
@@ -181,6 +190,15 @@ class LinkHeader
     #
     def to_s
       (["<#{href}>"] + attr_pairs.map{|k, v| "#{k}=\"#{v.gsub(/"/, '\"')}\""}).join('; ')
+    end
+    
+    #
+    # Bonus!  Render as an HTML link element
+    #
+    #   LinkHeader::Link.new(["http://example.com/foo", [["rel", "self"]]]).to_html
+    #   #=> '<link href="http://example.com/foo" rel="self">'
+    def to_html
+      ([%Q(<link href="#{href}")] + attr_pairs.map{|k, v| "#{k}=\"#{v.gsub(/"/, '\"')}\""}).join(' ')
     end
   end
 end

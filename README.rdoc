@@ -1,10 +1,10 @@
 = link_header README
 
-Parse and format HTTP link headers as described in the draft spec http://tools.ietf.org/id/draft-nottingham-http-link-header-06.txt
+Parse and format HTTP link headers as described in the draft spec http://tools.ietf.org/id/draft-nottingham-http-link-header-06.txt, also the equivalent HTML link elements.
 
 == Description
 
-Converts conforming link headers to and from text, LinkHeader objects and corresponding (JSON-friendly) Array representations.
+Converts conforming link headers to and from text, LinkHeader objects and corresponding (JSON-friendly) Array representations, also HTML link elements.
 
 == Installation
 
