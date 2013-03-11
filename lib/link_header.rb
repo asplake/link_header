@@ -1,3 +1,4 @@
+require "link_header/version"
 require "strscan"
 
 #
@@ -5,9 +6,6 @@ require "strscan"
 # It is simply a list of LinkHeader::Link objects and some conversion functions.
 #
 class LinkHeader
-  # rubygem version
-  VERSION = "0.0.5"
-  
   # An array of Link objects
   attr_reader :links
   
