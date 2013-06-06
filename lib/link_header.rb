@@ -35,6 +35,7 @@ class LinkHeader
   end
   
   def <<(link)
+    link = link.kind_of?(Link) ? link : Link.new(*link)
     @links << link
   end
   
