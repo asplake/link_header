@@ -34,6 +34,10 @@ class LinkHeader
     end
   end
   
+  def <<(link)
+    @links << link
+  end
+  
   #
   # Convert to a JSON-friendly array
   #
