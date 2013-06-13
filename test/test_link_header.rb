@@ -13,6 +13,15 @@ LINK_HEADER_A = [
   ["http://example.com/", []]
 ]
 
+LINK_HEADER_H_A = [
+  '<link href="http://example.com/" rel="up" meta="bar">',
+  '<link href="http://example.com/foo" rel="self">',
+  '<link href="http://example.com/">'
+]
+
+LINK_HEADER_H = LINK_HEADER_H_A.join("\n")
+
+
 class TestLinkHeader < Test::Unit::TestCase
   def test_new_link
     link = LinkHeader::Link.new(*LINK_HEADER_A[0])
@@ -65,5 +74,9 @@ class TestLinkHeader < Test::Unit::TestCase
   def test_find_link
     link_header = LinkHeader.new(LINK_HEADER_A)
     assert_equal([["rel", "self"]], link_header.find_link(["rel", "self"]).attr_pairs)
+  end
+
+  def test_link_header_to_html
+    assert_equal(LINK_HEADER_H, LinkHeader.new(LINK_HEADER_A).to_html)
   end
 end
