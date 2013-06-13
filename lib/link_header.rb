@@ -1,5 +1,5 @@
-require "link_header/version"
-require "strscan"
+require 'link_header/version'
+require 'strscan'
 
 #
 # Represents an HTTP link header of the form described in the draft spec http://tools.ietf.org/id/draft-nottingham-http-link-header-06.txt.
@@ -32,6 +32,11 @@ class LinkHeader
     else
       @links = []
     end
+  end
+  
+  def <<(link)
+    link = link.kind_of?(Link) ? link : Link.new(*link)
+    @links << link
   end
   
   #
@@ -196,7 +201,7 @@ class LinkHeader
     #   LinkHeader::Link.new(["http://example.com/foo", [["rel", "self"]]]).to_html
     #   #=> '<link href="http://example.com/foo" rel="self">'
     def to_html
-      ([%Q(<link href="#{href}")] + attr_pairs.map{|k, v| "#{k}=\"#{v.gsub(/"/, '\"')}\""}).join(' ')
+      ([%Q(<link href="#{href}")] + attr_pairs.map{|k, v| "#{k}=\"#{v.gsub(/"/, '\"')}\""}).join(' ') + '>'
     end
   end
 end
