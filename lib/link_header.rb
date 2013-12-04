@@ -91,8 +91,8 @@ class LinkHeader
       href = scanner[1]
       attrs = []
       while scanner.scan(ATTR)
-        attr_name, token, quoted = scanner[1], scanner[3], scanner[4].gsub(/\\"/, '"')
-        attrs.push([attr_name, token || quoted])
+        attr_name, token, quoted = scanner[1], scanner[3], scanner[4]
+        attrs.push([attr_name, token || quoted.gsub(/\\"/, '"')])
         break unless scanner.scan(SEMI)
       end
       links.push(Link.new(href, attrs))

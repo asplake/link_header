@@ -58,7 +58,13 @@ class TestLinkHeader < Test::Unit::TestCase
   def test_link_header_to_s
     assert_equal(LINK_HEADER_S, LinkHeader.new(LINK_HEADER_A).to_s)
   end
-  
+
+  def test_parse_token
+    link = LinkHeader.parse('</foo>; rel=self').links[0]
+    assert_equal("/foo", link.href)
+    assert_equal([["rel", "self"]], link.attr_pairs)
+  end
+
   def test_parse_href
     assert_equal("any old stuff!", LinkHeader.parse('<any old stuff!>').links[0].href)
   end
