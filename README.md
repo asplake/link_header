@@ -9,7 +9,7 @@ Converts conforming link headers to and from text, LinkHeader objects and corres
 ## Installation
 
 ```ruby
-sudo gem install link_header
+gem install link_header
 ```
   
 ## Usage
