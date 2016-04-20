@@ -23,7 +23,7 @@ LinkHeader.parse('<http://example.com/foo>; rel="self", <http://example.com/>; r
 LinkHeader.new([
   ["http://example.com/foo", [["rel", "self"]]],
   ["http://example.com/",    [["rel", "up"]]]]).to_s
-#=> '<http://example.com/foo>; rel="self", <http://example.com/>; rel = "up"'
+#=> '<http://example.com/foo>; rel="self", <http://example.com/>; rel="up"'
 ```
 
 For more information see the LinkHeader and LinkHeader::Link classes (both defined in lib/link_header.rb).
