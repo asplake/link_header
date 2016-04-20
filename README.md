@@ -18,8 +18,7 @@ sudo gem install link_header
 require "link_header"
 
 LinkHeader.parse('<http://example.com/foo>; rel="self", <http://example.com/>; rel = "up"').to_a
-#=> [["http://example.com/foo", [["rel", "self"]]],
-     ["http://example.com/", [["rel", "up"]]]]
+#=> [["http://example.com/foo", [["rel", "self"]]], ["http://example.com/", [["rel", "up"]]]]
 
 LinkHeader.new([
   ["http://example.com/foo", [["rel", "self"]]],
