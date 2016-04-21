@@ -30,4 +30,4 @@ For more information see the LinkHeader and LinkHeader::Link classes (both defin
 
 ## Author
 
-Mike Burrows (asplake), email mjb@asplake.co.uk, website positiveincline.com
+Mike Burrows (asplake), email mjb@asplake.co.uk, website [positiveincline.com](http://positiveincline.com)
