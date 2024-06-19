@@ -1,4 +1,8 @@
 source 'https://rubygems.org'
 
-# Specify your gem's dependencies in link_header.gemspec
+# Pull in dependencies from gemspec
 gemspec
+
+# Load additional development dependencies
+gem 'rake'
+gem 'test-unit'
