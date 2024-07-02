@@ -1,15 +1,17 @@
-# link_header
+# Link Header
 
-Parse and format HTTP link headers as described in the draft spec http://tools.ietf.org/id/draft-nottingham-http-link-header-06.txt, also the equivalent HTML link elements.
+Parse and format HTTP link headers (and equivalent HTML link elements) as
+described in the [Web Linking] spec.
 
 ## Description
 
-Converts conforming link headers to and from text, LinkHeader objects and corresponding (JSON-friendly) Array representations, also HTML link elements.
+Converts conforming link headers or HTML link elements to and from text,
+`LinkHeader` objects and corresponding (JSON-friendly) `Array` representations.
 
 ## Installation
 
-```ruby
-gem install link_header
+```shell
+bundle add link_header
 ```
   
 ## Usage
@@ -26,8 +28,12 @@ LinkHeader.new([
 #=> '<http://example.com/foo>; rel="self", <http://example.com/>; rel="up"'
 ```
 
-For more information see the LinkHeader and LinkHeader::Link classes (both defined in lib/link_header.rb).
+For more information see the `LinkHeader` and `LinkHeader::Link` classes
+(defined in `lib/link_header.rb`).
 
 ## Author
 
-Mike Burrows (asplake), email mjb@asplake.co.uk, website [positiveincline.com](http://positiveincline.com)
+Mike Burrows (asplake), email mjb@asplake.co.uk, website [positiveincline.com].
+
+[positiveincline.com]: http://positiveincline.com
+[Web Linking]: https://datatracker.ietf.org/doc/html/rfc8288
