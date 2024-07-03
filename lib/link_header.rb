@@ -2,13 +2,14 @@ require 'link_header/version'
 require 'strscan'
 
 #
-# Represents an HTTP link header of the form described in the draft spec http://tools.ietf.org/id/draft-nottingham-http-link-header-06.txt.
+# Represents an HTTP link header of the form described in the Web Linking spec:
+# https://datatracker.ietf.org/doc/html/rfc8288
 # It is simply a list of LinkHeader::Link objects and some conversion functions.
 #
 class LinkHeader
   # An array of Link objects
   attr_reader :links
-  
+
   #
   # Initialize from a collection of either LinkHeader::Link objects or data from which Link objects can be created.
   #
@@ -33,12 +34,12 @@ class LinkHeader
       @links = []
     end
   end
-  
+
   def <<(link)
     link = link.kind_of?(Link) ? link : Link.new(*link)
     @links << link
   end
-  
+
   #
   # Convert to a JSON-friendly array
   #
@@ -49,7 +50,7 @@ class LinkHeader
   def to_a
     links.map{|l| l.to_a}
   end
-  
+
   #
   # Convert to string representation as per the link header spec
   #
@@ -61,7 +62,7 @@ class LinkHeader
   def to_s
     links.join(', ')
   end
-  
+
   #
   # Regexes for link header parsing.  TOKEN and QUOTED in particular should conform to RFC2616.
   #
@@ -84,7 +85,7 @@ class LinkHeader
   #
   def self.parse(link_header)
     return new unless link_header
-    
+
     scanner = StringScanner.new(link_header)
     links = []
     while scanner.scan(HREF)
@@ -101,7 +102,7 @@ class LinkHeader
 
     new(links)
   end
-  
+
   #
   # Find a member link that has the given attributes
   #
@@ -110,9 +111,9 @@ class LinkHeader
       !attr_pairs.detect do |pair|
         !link.attr_pairs.include?(pair)
       end
-    end 
+    end
   end
-  
+
   #
   # Render as a list of HTML link elements
   #
@@ -134,7 +135,7 @@ class LinkHeader
     #   => 'http://example.com/foo>'
     #
     attr_reader :href
-    
+
     #
     # The link's attributes, an array of key-value pairs
     #
@@ -142,7 +143,7 @@ class LinkHeader
     #   => [["rel", "self"], ["rel", "canonical"]]
     #
     attr_reader :attr_pairs
-    
+
     #
     # Initialize a Link from an href and attribute list
     #
@@ -152,7 +153,7 @@ class LinkHeader
     def initialize(href, attr_pairs)
       @href, @attr_pairs = href, attr_pairs
     end
-    
+
     #
     # Lazily convert the attribute list to a Hash
     #
@@ -164,14 +165,14 @@ class LinkHeader
     def attrs
       @attrs ||= Hash[*attr_pairs.flatten]
     end
-    
+
     #
     # Access #attrs by key
     #
     def [](key)
       attrs[key]
     end
-    
+
     #
     # Convert to a JSON-friendly Array
     #
@@ -181,7 +182,7 @@ class LinkHeader
     def to_a
       [href, attr_pairs]
     end
-    
+
     #
     # Convert to string representation as per the link header spec.  This includes backspace-escaping doublequote characters in
     # quoted attribute values.
@@ -194,7 +195,7 @@ class LinkHeader
     def to_s
       (["<#{href}>"] + attr_pairs.map{|k, v| "#{k}=\"#{v.gsub(/"/, '\"')}\""}).join('; ')
     end
-    
+
     #
     # Bonus!  Render as an HTML link element
     #
