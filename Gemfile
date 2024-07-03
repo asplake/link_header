@@ -6,3 +6,4 @@ gemspec
 # Load additional development dependencies
 gem 'rake'
 gem 'test-unit'
+gem "simplecov", require: false
