@@ -1,4 +1,4 @@
-require "test/unit"
+require_relative "test_helper"
 
 LINK_HEADER_S_A = [
   '<http://example.com/>; rel="up"; meta="bar"',
