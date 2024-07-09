@@ -3,9 +3,9 @@ require "test/unit"
 LINK_HEADER_S_A = [
   '<http://example.com/>; rel="up"; meta="bar"',
   '<http://example.com/foo>; rel="self"',
-  '<http://example.com/>'
+  "<http://example.com/>"
 ]
-LINK_HEADER_S = LINK_HEADER_S_A.join(', ')
+LINK_HEADER_S = LINK_HEADER_S_A.join(", ")
 
 LINK_HEADER_A = [
   ["http://example.com/", [["rel", "up"], ["meta", "bar"]]],
@@ -59,21 +59,21 @@ class TestLinkHeader < Test::Unit::TestCase
   end
 
   def test_parse_token
-    link = LinkHeader.parse('</foo>; rel=self').links[0]
+    link = LinkHeader.parse("</foo>; rel=self").links[0]
     assert_equal("/foo", link.href)
     assert_equal([["rel", "self"]], link.attr_pairs)
   end
 
   def test_parse_href
-    assert_equal("any old stuff!", LinkHeader.parse('<any old stuff!>').links[0].href)
+    assert_equal("any old stuff!", LinkHeader.parse("<any old stuff!>").links[0].href)
   end
 
   def test_parse_attribute
-    assert_equal(['a-token', 'escaped "'], LinkHeader.parse('<any old stuff!> ;a-token="escaped \""').links[0].attr_pairs[0])
+    assert_equal(["a-token", 'escaped "'], LinkHeader.parse('<any old stuff!> ;a-token="escaped \""').links[0].attr_pairs[0])
   end
 
   def test_format_attribute
-    assert_equal('<any old stuff!>; a-token="escaped \""', LinkHeader.new([['any old stuff!', [['a-token', 'escaped "']]]]).to_s)
+    assert_equal('<any old stuff!>; a-token="escaped \""', LinkHeader.new([["any old stuff!", [["a-token", 'escaped "']]]]).to_s)
   end
 
   def test_find_link
