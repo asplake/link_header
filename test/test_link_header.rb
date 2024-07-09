@@ -28,15 +28,15 @@ class TestLinkHeader < Test::Unit::TestCase
     assert_equal([["rel", "up"], ["meta", "bar"]], link.attr_pairs)
     assert_equal({"rel" => "up", "meta" => "bar"}, link.attrs)
   end
-  
+
   def test_link_to_a
     assert_equal(LINK_HEADER_A[0], LinkHeader::Link.new(*LINK_HEADER_A[0]).to_a)
   end
-  
+
   def test_link_to_s
     assert_equal(LINK_HEADER_S_A[0], LinkHeader::Link.new(*LINK_HEADER_A[0]).to_s)
   end
-  
+
   def test_new_link_header
     link_header = LinkHeader.new(LINK_HEADER_A)
     assert_equal(LINK_HEADER_A.length, link_header.links.length)
@@ -45,15 +45,15 @@ class TestLinkHeader < Test::Unit::TestCase
     assert_equal([["rel", "up"], ["meta", "bar"]], link.attr_pairs)
     assert_equal({"rel" => "up", "meta" => "bar"}, link.attrs)
   end
-  
+
   def test_link_header_to_a
     assert_equal(LINK_HEADER_A, LinkHeader.new(LINK_HEADER_A).to_a)
   end
-  
+
   def test_parse_link_header
     assert_equal(LINK_HEADER_A, LinkHeader.parse(LINK_HEADER_S).to_a)
   end
-  
+
   def test_link_header_to_s
     assert_equal(LINK_HEADER_S, LinkHeader.new(LINK_HEADER_A).to_s)
   end
@@ -75,7 +75,7 @@ class TestLinkHeader < Test::Unit::TestCase
   def test_format_attribute
     assert_equal('<any old stuff!>; a-token="escaped \""', LinkHeader.new([['any old stuff!', [['a-token', 'escaped "']]]]).to_s)
   end
-  
+
   def test_find_link
     link_header = LinkHeader.new(LINK_HEADER_A)
     assert_equal([["rel", "self"]], link_header.find_link(["rel", "self"]).attr_pairs)
