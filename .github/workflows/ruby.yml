@@ -33,3 +33,7 @@ jobs:
     - name: Run library tests
       run: |
         bundle exec rake
+
+    - name: Run linter
+      run: |
+        bin/standardrb
