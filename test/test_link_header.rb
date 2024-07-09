@@ -26,7 +26,7 @@ class TestLinkHeader < Test::Unit::TestCase
     link = LinkHeader::Link.new(*LINK_HEADER_A[0])
     assert_equal("http://example.com/", link.href)
     assert_equal([["rel", "up"], ["meta", "bar"]], link.attr_pairs)
-    assert_equal({"rel"=>"up", "meta"=>"bar"}, link.attrs)
+    assert_equal({"rel" => "up", "meta" => "bar"}, link.attrs)
   end
   
   def test_link_to_a
@@ -43,7 +43,7 @@ class TestLinkHeader < Test::Unit::TestCase
     link = link_header.links[0]
     assert_equal("http://example.com/", link.href)
     assert_equal([["rel", "up"], ["meta", "bar"]], link.attr_pairs)
-    assert_equal({"rel"=>"up", "meta"=>"bar"}, link.attrs)
+    assert_equal({"rel" => "up", "meta" => "bar"}, link.attrs)
   end
   
   def test_link_header_to_a
