@@ -69,12 +69,12 @@ class LinkHeader
   # Acknowledgement: The QUOTED regexp is based on
   # http://stackoverflow.com/questions/249791/regexp-for-quoted-string-with-escaping-quotes/249937#249937
   #
-  HREF = / *< *([^>]*) *> *;? */                #:nodoc: note: no attempt to check URI validity
-  TOKEN = /([^()<>@,;:\"\[\]?={}\s]+)/          #:nodoc: non-empty sequence of non-separator characters
-  QUOTED = /"((?:[^"\\]|\\.)*)"/                #:nodoc: double-quoted strings with backslash-escaped double quotes
-  ATTR = /#{TOKEN} *= *(#{TOKEN}|#{QUOTED}) */  #:nodoc:
-  SEMI = /; */                                  #:nodoc:
-  COMMA = /, */                                 #:nodoc:
+  HREF = / *< *([^>]*) *> *;? */                # :nodoc: note: no attempt to check URI validity
+  TOKEN = /([^()<>@,;:\"\[\]?={}\s]+)/          # :nodoc: non-empty sequence of non-separator characters
+  QUOTED = /"((?:[^"\\]|\\.)*)"/                # :nodoc: double-quoted strings with backslash-escaped double quotes
+  ATTR = /#{TOKEN} *= *(#{TOKEN}|#{QUOTED}) */  # :nodoc:
+  SEMI = /; */                                  # :nodoc:
+  COMMA = /, */                                 # :nodoc:
 
   #
   # Parse a link header, returning a new LinkHeader object
