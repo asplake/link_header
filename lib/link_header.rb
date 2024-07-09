@@ -27,7 +27,7 @@ class LinkHeader
   #
   # See also LinkHeader.parse
   #
-  def initialize(links=[])
+  def initialize(links = [])
     @links = if links
       links.map{|l| l.is_a?(Link) ? l : Link.new(*l)}
     else
@@ -117,7 +117,7 @@ class LinkHeader
   #
   # Render as a list of HTML link elements
   #
-  def to_html(separator="\n")
+  def to_html(separator = "\n")
     links.map{|link| link.to_html}.join(separator)
   end
 
