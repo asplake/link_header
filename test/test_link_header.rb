@@ -21,7 +21,6 @@ LINK_HEADER_H_A = [
 
 LINK_HEADER_H = LINK_HEADER_H_A.join("\n")
 
-
 class TestLinkHeader < Test::Unit::TestCase
   def test_new_link
     link = LinkHeader::Link.new(*LINK_HEADER_A[0])
