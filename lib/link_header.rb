@@ -29,14 +29,14 @@ class LinkHeader
   #
   def initialize(links=[])
     if links
-      @links = links.map{|l| l.kind_of?(Link) ? l : Link.new(*l)}
+      @links = links.map{|l| l.is_a?(Link) ? l : Link.new(*l)}
     else
       @links = []
     end
   end
 
   def <<(link)
-    link = link.kind_of?(Link) ? link : Link.new(*link)
+    link = link.is_a?(Link) ? link : Link.new(*link)
     @links << link
   end
 
