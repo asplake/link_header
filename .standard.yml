@@ -1,0 +1,2 @@
+parallel: true
+ruby_version: 3.0.0 # Oldest supported version
