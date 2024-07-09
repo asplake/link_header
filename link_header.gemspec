@@ -3,6 +3,7 @@ require_relative "lib/link_header/version"
 Gem::Specification.new do |spec|
   spec.name          = "link_header"
   spec.version       = LinkHeader::VERSION
+  spec.required_ruby_version = LinkHeader::MINIMUM_RUBY_VERSION
   spec.authors       = ["Mike Burrows"]
   spec.email         = ["mjb@asplake.co.uk"]
   spec.summary = "Process HTTP/HTML Web Linking data"
