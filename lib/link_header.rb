@@ -29,7 +29,7 @@ class LinkHeader
   #
   def initialize(links = [])
     @links = if links
-      links.map {|l| l.is_a?(Link) ? l : Link.new(*l)}
+      links.map { |l| l.is_a?(Link) ? l : Link.new(*l) }
     else
       []
     end
@@ -48,7 +48,7 @@ class LinkHeader
   #        ["http://example.com/", [["rel", "up"]]]]
   #
   def to_a
-    links.map {|l| l.to_a}
+    links.map { |l| l.to_a }
   end
 
   #
@@ -118,7 +118,7 @@ class LinkHeader
   # Render as a list of HTML link elements
   #
   def to_html(separator = "\n")
-    links.map {|link| link.to_html}.join(separator)
+    links.map { |link| link.to_html }.join(separator)
   end
 
   #
@@ -193,7 +193,7 @@ class LinkHeader
     #   #=> '<http://example.com/foo>; rel="self"'
     #
     def to_s
-      (["<#{href}>"] + attr_pairs.map {|k, v| "#{k}=\"#{v.gsub('"', '\"')}\""}).join('; ')
+      (["<#{href}>"] + attr_pairs.map { |k, v| "#{k}=\"#{v.gsub('"', '\"')}\"" }).join('; ')
     end
 
     #
@@ -202,7 +202,7 @@ class LinkHeader
     #   LinkHeader::Link.new(["http://example.com/foo", [["rel", "self"]]]).to_html
     #   #=> '<link href="http://example.com/foo" rel="self">'
     def to_html
-      ([%(<link href="#{href}")] + attr_pairs.map {|k, v| "#{k}=\"#{v.gsub('"', '\"')}\""}).join(' ') + '>'
+      ([%(<link href="#{href}")] + attr_pairs.map { |k, v| "#{k}=\"#{v.gsub('"', '\"')}\"" }).join(' ') + '>'
     end
   end
 end
