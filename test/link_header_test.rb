@@ -98,4 +98,9 @@ class TestLinkHeader < Test::Unit::TestCase
     links << link
     assert_equal(link.to_a, links.to_a.first)
   end
+
+  def test_access_by_key
+    link = LinkHeader::Link.new("http://example.com/foo", [["rel", "self"]])
+    assert_equal("self", link["rel"])
+  end
 end
