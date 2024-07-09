@@ -14,6 +14,10 @@ Gem::Specification.new do |spec|
   spec.homepage      = "https://github.com/asplake/link_header"
   spec.license       = "MIT"
 
+  spec.metadata["source_code_uri"] = spec.homepage
+  spec.metadata["changelog_uri"] = "https://github.com/asplake/link_header/blob/main/CHANGELOG.md"
+  spec.metadata["wiki_uri"] = "https://github.com/asplake/link_header/wiki"
+
   spec.files = Dir.chdir(File.expand_path(__dir__)) do
     Dir["{lib}/**/*", "LICENSE", "Rakefile", "*.md"]
   end
