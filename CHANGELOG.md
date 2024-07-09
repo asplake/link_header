@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased]
+
+### Changed
+
+- Set minimum ruby version of 3.0.0
+
 ## [0.0.8] - 2013-12-04
 
 ### Added
