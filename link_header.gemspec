@@ -7,8 +7,11 @@ Gem::Specification.new do |spec|
   spec.version       = LinkHeader::VERSION
   spec.authors       = ["Mike Burrows"]
   spec.email         = ["mjb@asplake.co.uk"]
-  spec.description   = %q{Converts conforming link headers to and from text, LinkHeader objects and corresponding (JSON-friendly) Array representations, also HTML link elements.}
-  spec.summary       = spec.description
+  spec.summary = "Process HTTP/HTML Web Linking data"
+  spec.description = <<~DESC
+  Converts conforming link headers (and HTML link elements) to and from text,
+  LinkHeader objects and corresponding (JSON-friendly) Array representations.
+  DESC
   spec.homepage      = "https://github.com/asplake/link_header"
   spec.license       = "MIT"
 
