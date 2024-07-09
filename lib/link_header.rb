@@ -202,7 +202,7 @@ class LinkHeader
     #   LinkHeader::Link.new(["http://example.com/foo", [["rel", "self"]]]).to_html
     #   #=> '<link href="http://example.com/foo" rel="self">'
     def to_html
-      ([%Q(<link href="#{href}")] + attr_pairs.map{|k, v| "#{k}=\"#{v.gsub(/"/, '\"')}\""}).join(' ') + '>'
+      ([%(<link href="#{href}")] + attr_pairs.map{|k, v| "#{k}=\"#{v.gsub(/"/, '\"')}\""}).join(' ') + '>'
     end
   end
 end
