@@ -46,6 +46,11 @@ class TestLinkHeader < Test::Unit::TestCase
     assert_equal({"rel" => "up", "meta" => "bar"}, link.attrs)
   end
 
+  def test_link_header_nil
+    links = LinkHeader.new(nil)
+    assert_equal([], links.to_a)
+  end
+
   def test_link_header_to_a
     assert_equal(LINK_HEADER_A, LinkHeader.new(LINK_HEADER_A).to_a)
   end
