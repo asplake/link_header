@@ -93,7 +93,7 @@ class LinkHeader
       attrs = []
       while scanner.scan(ATTR)
         attr_name, token, quoted = scanner[1], scanner[3], scanner[4]
-        attrs.push([attr_name, token || quoted.gsub(/\\"/, '"')])
+        attrs.push([attr_name, token || quoted.gsub('\\"', '"')])
         break unless scanner.scan(SEMI)
       end
       links.push(Link.new(href, attrs))
@@ -193,7 +193,7 @@ class LinkHeader
     #   #=> '<http://example.com/foo>; rel="self"'
     #
     def to_s
-      (["<#{href}>"] + attr_pairs.map{|k, v| "#{k}=\"#{v.gsub(/"/, '\"')}\""}).join('; ')
+      (["<#{href}>"] + attr_pairs.map{|k, v| "#{k}=\"#{v.gsub('"', '\"')}\""}).join('; ')
     end
 
     #
@@ -202,7 +202,7 @@ class LinkHeader
     #   LinkHeader::Link.new(["http://example.com/foo", [["rel", "self"]]]).to_html
     #   #=> '<link href="http://example.com/foo" rel="self">'
     def to_html
-      ([%(<link href="#{href}")] + attr_pairs.map{|k, v| "#{k}=\"#{v.gsub(/"/, '\"')}\""}).join(' ') + '>'
+      ([%(<link href="#{href}")] + attr_pairs.map{|k, v| "#{k}=\"#{v.gsub('"', '\"')}\""}).join(' ') + '>'
     end
   end
 end
