@@ -1,80 +1,65 @@
 require_relative "test_helper"
 
-LINK_HEADER_S_A = [
-  '<http://example.com/>; rel="up"; meta="bar"',
-  '<http://example.com/foo>; rel="self"',
-  "<http://example.com/>"
-]
-LINK_HEADER_S = LINK_HEADER_S_A.join(", ")
+class LinkHeaderTest < Test::Unit::TestCase
+  LINK_HEADER_STRING_ARRAY = [
+    '<http://example.com/>; rel="up"; meta="bar"',
+    '<http://example.com/foo>; rel="self"',
+    "<http://example.com/>"
+  ].freeze
+  LINK_HEADER_STRING = LINK_HEADER_STRING_ARRAY.join(", ").freeze
 
-LINK_HEADER_A = [
-  ["http://example.com/", [["rel", "up"], ["meta", "bar"]]],
-  ["http://example.com/foo", [["rel", "self"]]],
-  ["http://example.com/", []]
-]
+  LINK_HEADER_ARRAY = [
+    ["http://example.com/", [%w[rel up], %w[meta bar]]],
+    ["http://example.com/foo", [%w[rel self]]],
+    ["http://example.com/", []]
+  ].freeze
 
-LINK_HEADER_H_A = [
-  '<link href="http://example.com/" rel="up" meta="bar">',
-  '<link href="http://example.com/foo" rel="self">',
-  '<link href="http://example.com/">'
-]
+  LINK_HEADER_HTML_ARRAY = [
+    '<link href="http://example.com/" rel="up" meta="bar">',
+    '<link href="http://example.com/foo" rel="self">',
+    '<link href="http://example.com/">'
+  ].freeze
 
-LINK_HEADER_H = LINK_HEADER_H_A.join("\n")
+  LINK_HEADER_HTML = LINK_HEADER_HTML_ARRAY.join("\n").freeze
 
-class TestLinkHeader < Test::Unit::TestCase
-  def test_new_link
-    link = LinkHeader::Link.new(*LINK_HEADER_A[0])
+  def test_initialization
+    assert_equal(LINK_HEADER_ARRAY.length, link_header_from_array.links.length)
+
+    link = link_header_from_array.links.first
     assert_equal("http://example.com/", link.href)
-    assert_equal([["rel", "up"], ["meta", "bar"]], link.attr_pairs)
+    assert_equal([%w[rel up], %w[meta bar]], link.attr_pairs)
     assert_equal({"rel" => "up", "meta" => "bar"}, link.attrs)
   end
 
-  def test_link_to_a
-    assert_equal(LINK_HEADER_A[0], LinkHeader::Link.new(*LINK_HEADER_A[0]).to_a)
-  end
-
-  def test_link_to_s
-    assert_equal(LINK_HEADER_S_A[0], LinkHeader::Link.new(*LINK_HEADER_A[0]).to_s)
-  end
-
-  def test_new_link_header
-    link_header = LinkHeader.new(LINK_HEADER_A)
-    assert_equal(LINK_HEADER_A.length, link_header.links.length)
-    link = link_header.links[0]
-    assert_equal("http://example.com/", link.href)
-    assert_equal([["rel", "up"], ["meta", "bar"]], link.attr_pairs)
-    assert_equal({"rel" => "up", "meta" => "bar"}, link.attrs)
-  end
-
-  def test_link_header_nil
+  def test_initialization_with_nil
     links = LinkHeader.new(nil)
     assert_equal([], links.to_a)
   end
 
-  def test_link_header_to_a
-    assert_equal(LINK_HEADER_A, LinkHeader.new(LINK_HEADER_A).to_a)
+  def test_to_a
+    assert_equal(LINK_HEADER_ARRAY, link_header_from_array.to_a)
   end
 
-  def test_parse_link_header
-    assert_equal(LINK_HEADER_A, LinkHeader.parse(LINK_HEADER_S).to_a)
+  def test_to_s
+    assert_equal(LINK_HEADER_STRING, link_header_from_array.to_s)
   end
 
-  def test_link_header_to_s
-    assert_equal(LINK_HEADER_S, LinkHeader.new(LINK_HEADER_A).to_s)
+  def test_parse_string
+    assert_equal(LINK_HEADER_ARRAY, LinkHeader.parse(LINK_HEADER_STRING).to_a)
   end
 
   def test_parse_token
-    link = LinkHeader.parse("</foo>; rel=self").links[0]
+    link = LinkHeader.parse("</foo>; rel=self").links.first
     assert_equal("/foo", link.href)
-    assert_equal([["rel", "self"]], link.attr_pairs)
+    assert_equal([%w[rel self]], link.attr_pairs)
   end
 
   def test_parse_href
-    assert_equal("any old stuff!", LinkHeader.parse("<any old stuff!>").links[0].href)
+    assert_equal("any old stuff!", LinkHeader.parse("<any old stuff!>").links.first.href)
   end
 
   def test_parse_attribute
-    assert_equal(["a-token", 'escaped "'], LinkHeader.parse('<any old stuff!> ;a-token="escaped \""').links[0].attr_pairs[0])
+    assert_equal(["a-token", 'escaped "'], LinkHeader.parse('<any old stuff!> ;a-token="escaped \""').links.first.attr_pairs.first)
   end
 
   def test_format_attribute
@@ -82,25 +67,26 @@ class TestLinkHeader < Test::Unit::TestCase
   end
 
   def test_find_link
-    link_header = LinkHeader.new(LINK_HEADER_A)
-    assert_equal([["rel", "self"]], link_header.find_link(["rel", "self"]).attr_pairs)
+    link_header = link_header_from_array
+    assert_equal([%w[rel self]], link_header.find_link(%w[rel self]).attr_pairs)
   end
 
-  def test_link_header_to_html
-    assert_equal(LINK_HEADER_H, LinkHeader.new(LINK_HEADER_A).to_html)
+  def test_to_html
+    assert_equal(LINK_HEADER_HTML, link_header_from_array.to_html)
   end
 
   def test_array_push
     links = LinkHeader.new(nil)
     assert_equal([], links.to_a)
 
-    link = LinkHeader::Link.new("http://example.com/foo", [["rel", "self"]])
+    link = LinkHeader::Link.new("http://example.com/foo", [%w[rel self]])
     links << link
     assert_equal(link.to_a, links.to_a.first)
   end
 
-  def test_access_by_key
-    link = LinkHeader::Link.new("http://example.com/foo", [["rel", "self"]])
-    assert_equal("self", link["rel"])
+  private
+
+  def link_header_from_array
+    @link_header_from_array ||= LinkHeader.new(LINK_HEADER_ARRAY)
   end
 end
