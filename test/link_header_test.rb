@@ -89,4 +89,13 @@ class TestLinkHeader < Test::Unit::TestCase
   def test_link_header_to_html
     assert_equal(LINK_HEADER_H, LinkHeader.new(LINK_HEADER_A).to_html)
   end
+
+  def test_array_push
+    links = LinkHeader.new(nil)
+    assert_equal([], links.to_a)
+
+    link = LinkHeader::Link.new("http://example.com/foo", [["rel", "self"]])
+    links << link
+    assert_equal(link.to_a, links.to_a.first)
+  end
 end
