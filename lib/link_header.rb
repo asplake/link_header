@@ -1,5 +1,5 @@
-require 'link_header/version'
-require 'strscan'
+require "link_header/version"
+require "strscan"
 
 #
 # Represents an HTTP link header of the form described in the Web Linking spec:
@@ -60,7 +60,7 @@ class LinkHeader
   #   #=> '<http://example.com/foo>; rel="self", <http://example.com/>; rel = "up"'
   #
   def to_s
-    links.join(', ')
+    links.join(", ")
   end
 
   #
@@ -193,7 +193,7 @@ class LinkHeader
     #   #=> '<http://example.com/foo>; rel="self"'
     #
     def to_s
-      (["<#{href}>"] + attr_pairs.map { |k, v| "#{k}=\"#{v.gsub('"', '\"')}\"" }).join('; ')
+      (["<#{href}>"] + attr_pairs.map { |k, v| "#{k}=\"#{v.gsub('"', '\"')}\"" }).join("; ")
     end
 
     #
@@ -202,7 +202,7 @@ class LinkHeader
     #   LinkHeader::Link.new(["http://example.com/foo", [["rel", "self"]]]).to_html
     #   #=> '<link href="http://example.com/foo" rel="self">'
     def to_html
-      ([%(<link href="#{href}")] + attr_pairs.map { |k, v| "#{k}=\"#{v.gsub('"', '\"')}\"" }).join(' ') + '>'
+      ([%(<link href="#{href}")] + attr_pairs.map { |k, v| "#{k}=\"#{v.gsub('"', '\"')}\"" }).join(" ") + ">"
     end
   end
 end
