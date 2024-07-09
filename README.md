@@ -29,7 +29,7 @@ LinkHeader.new([
 ```
 
 For more information see the `LinkHeader` and `LinkHeader::Link` classes
-(defined in `lib/link_header.rb`).
+(defined in `lib/link_header.rb`) or look in `example.rb` for more usage.
 
 ## Author
 
