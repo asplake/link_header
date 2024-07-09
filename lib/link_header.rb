@@ -28,10 +28,10 @@ class LinkHeader
   # See also LinkHeader.parse
   #
   def initialize(links=[])
-    if links
-      @links = links.map{|l| l.is_a?(Link) ? l : Link.new(*l)}
+    @links = if links
+      links.map{|l| l.is_a?(Link) ? l : Link.new(*l)}
     else
-      @links = []
+      []
     end
   end
 
