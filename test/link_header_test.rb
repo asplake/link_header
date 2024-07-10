@@ -20,8 +20,6 @@ class LinkHeaderTest < Test::Unit::TestCase
     '<link href="http://example.com/">'
   ].freeze
 
-  LINK_HEADER_HTML = LINK_HEADER_HTML_ARRAY.join("\n").freeze
-
   def test_initialization
     assert_equal(LINK_HEADER_ARRAY.length, link_header_from_array.links.length)
 
@@ -72,7 +70,11 @@ class LinkHeaderTest < Test::Unit::TestCase
   end
 
   def test_to_html
-    assert_equal(LINK_HEADER_HTML, link_header_from_array.to_html)
+    assert_equal(LINK_HEADER_HTML_ARRAY.join("\n"), link_header_from_array.to_html)
+  end
+
+  def test_to_html_with_separator
+    assert_equal(LINK_HEADER_HTML_ARRAY.join("🔗"), link_header_from_array.to_html("🔗"))
   end
 
   def test_array_push

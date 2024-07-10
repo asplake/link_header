@@ -30,11 +30,7 @@ class LinkHeader
   # See also LinkHeader.parse
   #
   def initialize(links = [])
-    @links = if links
-      links.map { |l| l.is_a?(Link) ? l : Link.new(*l) }
-    else
-      []
-    end
+    @links = Array(links).map { |link| link.is_a?(Link) ? link : Link.new(*link) }
   end
 
   def <<(link)
