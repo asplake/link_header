@@ -19,17 +19,29 @@ bundle add link_header
 ```ruby
 require "link_header"
 
-LinkHeader.parse('<http://example.com/foo>; rel="self", <http://example.com/>; rel = "up"').to_a
+http_link_header = <<~HEADER
+  <http://example.com/foo>; rel="self", <http://example.com/>; rel = "up"
+HEADER
+
+LinkHeader
+  .parse(http_link_header)
+  .to_a
 #=> [["http://example.com/foo", [["rel", "self"]]], ["http://example.com/", [["rel", "up"]]]]
 
-LinkHeader.new([
-  ["http://example.com/foo", [["rel", "self"]]],
-  ["http://example.com/",    [["rel", "up"]]]]).to_s
+link_header = LinkHeader.new([
+    ["http://example.com/foo", [%w[rel self]]],
+    ["http://example.com/", [%w[rel up]]]
+])
+
+link_header.to_s
 #=> '<http://example.com/foo>; rel="self", <http://example.com/>; rel="up"'
+
+link_header.to_html
+#=> '<link href="http://example.com/foo" rel="self">
+#    <link href="http://example.com/" rel="up">'
 ```
 
-For more information see the `LinkHeader` and `LinkHeader::Link` classes
-(defined in `lib/link_header.rb`) or look in `example.rb` for more usage.
+For more see the `LinkHeader` and `LinkHeader::Link` classes or `example.rb`.
 
 ## Author
 
