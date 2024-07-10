@@ -208,7 +208,7 @@ class LinkHeader
     #   #=> '<http://example.com/foo>; rel="self"'
     #
     def to_s
-      (["<#{href}>"] + attr_pairs.map { |k, v| "#{k}=\"#{v.gsub('"', '\"')}\"" }).join("; ")
+      (["<#{href}>"] + escaped_attr_pairs).join("; ")
     end
 
     #
@@ -219,7 +219,13 @@ class LinkHeader
     #   ).to_html
     #   #=> '<link href="http://example.com/foo" rel="self">'
     def to_html
-      ([%(<link href="#{href}")] + attr_pairs.map { |k, v| "#{k}=\"#{v.gsub('"', '\"')}\"" }).join(" ") + ">"
+      ([%(<link href="#{href}")] + escaped_attr_pairs).join(" ") + ">"
+    end
+
+    private
+
+    def escaped_attr_pairs
+      attr_pairs.map { |k, v| "#{k}=\"#{v.gsub('"', '\"')}\"" }
     end
   end
 end
