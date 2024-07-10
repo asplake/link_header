@@ -41,7 +41,9 @@ class LinkHeader
   #
   # Convert to a JSON-friendly array
   #
-  #   LinkHeader.parse('<http://example.com/foo>; rel="self", <http://example.com/>; rel = "up"').to_a
+  #   LinkHeader.parse(
+  #     '<http://example.com/foo>; rel="self", <http://example.com/>; rel = "up"'
+  #   ).to_a
   #   #=> [["http://example.com/foo", [["rel", "self"]]],
   #        ["http://example.com/", [["rel", "up"]]]]
   #
@@ -54,7 +56,8 @@ class LinkHeader
   #
   #   LinkHeader.new([
   #     ["http://example.com/foo", [["rel", "self"]]],
-  #     ["http://example.com/",    [["rel", "up"]]]]).to_s
+  #     ["http://example.com/",    [["rel", "up"]]]
+  #   ]).to_s
   #   #=> '<http://example.com/foo>; rel="self", <http://example.com/>; rel = "up"'
   #
   def to_s
@@ -76,7 +79,9 @@ class LinkHeader
   #
   # Parse a link header, returning a new LinkHeader object
   #
-  #   LinkHeader.parse('<http://example.com/foo>; rel="self", <http://example.com/>; rel = "up"').to_a
+  #   LinkHeader.parse(
+  #     '<http://example.com/foo>; rel="self", <http://example.com/>; rel = "up"'
+  #   ).to_a
   #   #=> [["http://example.com/foo", [["rel", "self"]]],
   #        ["http://example.com/", [["rel", "up"]]]]
   #
