@@ -15,6 +15,10 @@ class LinkHeader::LinkTest < Test::Unit::TestCase
     assert_equal('<http://example.com/>; rel="up"; meta="bar"', link_header_link.to_s)
   end
 
+  def test_to_html
+    assert_equal('<link href="http://example.com/" rel="up" meta="bar">', link_header_link.to_html)
+  end
+
   def test_hash_key_access
     assert_equal("up", link_header_link["rel"])
   end
