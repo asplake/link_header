@@ -19,6 +19,11 @@ class LinkHeader::LinkTest < Test::Unit::TestCase
     assert_equal('<link href="http://example.com/" rel="up" meta="bar">', link_header_link.to_html)
   end
 
+  def test_to_html_with_escaping
+    link = LinkHeader::Link.new("http://example.com/", [["context", 'using "scare quotes" sometimes!']])
+    assert_equal('<link href="http://example.com/" context="using \"scare quotes\" sometimes!">', link.to_html)
+  end
+
   def test_hash_key_access
     assert_equal("up", link_header_link["rel"])
   end
