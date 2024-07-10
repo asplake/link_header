@@ -46,6 +46,10 @@ class LinkHeaderTest < Test::Unit::TestCase
     assert_equal(LINK_HEADER_ARRAY, LinkHeader.parse(LINK_HEADER_STRING).to_a)
   end
 
+  def test_parse_nil
+    assert_equal(0, LinkHeader.parse(nil).links.size)
+  end
+
   def test_parse_token
     link = LinkHeader.parse("</foo>; rel=self").links.first
     assert_equal("/foo", link.href)
@@ -77,12 +81,21 @@ class LinkHeaderTest < Test::Unit::TestCase
     assert_equal(LINK_HEADER_HTML_ARRAY.join("🔗"), link_header_from_array.to_html("🔗"))
   end
 
-  def test_array_push
-    links = LinkHeader.new(nil)
+  def test_array_push_with_link
+    links = LinkHeader.new
     assert_equal([], links.to_a)
 
     link = LinkHeader::Link.new("http://example.com/foo", [%w[rel self]])
     links << link
+    assert_equal(link.to_a, links.to_a.first)
+  end
+
+  def test_array_push_with_value
+    links = LinkHeader.new
+    assert_equal([], links.to_a)
+
+    link = LinkHeader::Link.new("http://example.com/foo", [%w[rel self]])
+    links << ["http://example.com/foo", [%w[rel self]]]
     assert_equal(link.to_a, links.to_a.first)
   end
 
