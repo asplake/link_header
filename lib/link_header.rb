@@ -50,7 +50,7 @@ class LinkHeader
   #        ["http://example.com/", [["rel", "up"]]]]
   #
   def to_a
-    links.map { |l| l.to_a }
+    links.map(&:to_a)
   end
 
   #
