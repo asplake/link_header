@@ -31,7 +31,7 @@ puts LinkHeader.new(
 #=> <http://example.com/foo>; rel="self", <http://example.com/>; rel="up"
 
 #
-# Parse a link header into a LinkHeader object then produce its raw data representation
+# Parse a link header string into a `LinkHeader` object and convert to `Array`
 #
 header_string = <<~HEADER
   <http://example.com/foo>; rel="self", <http://example.com/>; rel = "up"
