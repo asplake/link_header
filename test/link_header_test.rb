@@ -1,6 +1,6 @@
 require_relative "test_helper"
 
-class LinkHeaderTest < Test::Unit::TestCase
+class LinkHeaderTest < UnitTest
   LINK_HEADER_STRING_ARRAY = [
     '<http://example.com/>; rel="up"; meta="bar"',
     '<http://example.com/foo>; rel="self"',
@@ -69,8 +69,7 @@ class LinkHeaderTest < Test::Unit::TestCase
   end
 
   def test_find_link
-    link_header = link_header_from_array
-    assert_equal([%w[rel self]], link_header.find_link(%w[rel self]).attr_pairs)
+    assert_equal link_header_from_array.links[1], link_header_from_array.find_link(%w[rel self])
   end
 
   def test_to_html
@@ -82,21 +81,21 @@ class LinkHeaderTest < Test::Unit::TestCase
   end
 
   def test_array_push_with_link
-    links = LinkHeader.new
-    assert_equal([], links.to_a)
+    link_headers = LinkHeader.new
+    link = build_link
 
-    link = LinkHeader::Link.new("http://example.com/foo", [%w[rel self]])
-    links << link
-    assert_equal(link.to_a, links.to_a.first)
+    link_headers << link
+
+    assert_equal(link, link_headers.links.first)
   end
 
   def test_array_push_with_value
-    links = LinkHeader.new
-    assert_equal([], links.to_a)
+    link_headers = LinkHeader.new
+    link = build_link
 
-    link = LinkHeader::Link.new("http://example.com/foo", [%w[rel self]])
-    links << ["http://example.com/foo", [%w[rel self]]]
-    assert_equal(link.to_a, links.to_a.first)
+    link_headers << ["http://example.com/", [%w[rel up], %w[meta bar]]]
+
+    assert_equal(link, link_headers.links.first)
   end
 
   private
