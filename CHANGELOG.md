@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### Added
+
+- Add `==` method to `LinkHeader::Link` class (compares href and attrs)
+
 ### Changed
 
 - Set minimum ruby version of 3.0.0
