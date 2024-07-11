@@ -223,6 +223,15 @@ class LinkHeader
       ([%(<link href="#{href}")] + escaped_attr_pairs).join(" ") + ">"
     end
 
+    #
+    # Check equality of href and attr pairs values
+    #
+    def ==(other)
+      self.class == other.class &&
+        href == other.href &&
+        attr_pairs.sort == other.attr_pairs.sort
+    end
+
     private
 
     def escaped_attr_pairs
